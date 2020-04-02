@@ -1,14 +1,18 @@
 <template>
   <div class="chat-window">
     <div class="messages">
-      <div class="message" v-for="message in messages" v-bind:key="message._id">
-        <div class="username">{{message.username}}</div>
-        <div class="message-text">{{message.msg}}</div>
+      <div class="message" v-for="message in messages" :key="message._id">
+        <div class="username">{{ message.username }}</div>
+        <div class="message-text">
+          <p>
+            {{ message.msg }}
+          </p>
+        </div>
       </div>
     </div>
-    <form class="input-container" v-on:submit="sendMessage">
+    <form class="input-container" @submit="sendMessageBtn">
       <input type="text" v-model="msg" />
-      <button v-on:click="sendMessage" v-bind:disabled="!msg">Send</button>
+      <button @click="sendMessageBtn" :disabled="!msg">Send</button>
     </form>
   </div>
 </template>
@@ -23,7 +27,7 @@ export default {
     };
   },
   methods: {
-    sendMessage: function() {
+    sendMessageBtn: function() {
       if (!this.msg) {
         alert("Please enter a message");
         return;
@@ -37,24 +41,30 @@ export default {
 
 <style lang="scss" scoped>
 .chat-window {
-  flex: 1;
   display: flex;
   flex-direction: column;
+  flex: 1;
   background-color: #f9f9f9;
-  box-shadow: 1px 1px 6px 0px rgba(0, 0, 0, 0.15);
+  box-shadow: 1px 1px 6px 0 rgba(0, 0, 0, 0.15);
+  height: 768px;
   .messages {
     flex: 1;
-    overflow: scroll;
+    overflow-y: scroll;
     .message {
       display: flex;
       border-bottom: 1px solid #efefef;
       padding: 10px;
-      &:last-of-type {
+      &:last-child {
         border-bottom: none;
+      }
+      p {
+        margin: 0;
+        padding: 0;
+        word-break: break-all;
       }
       .username {
         width: 100px;
-        margin-right: 15px;
+        margin-right: 20px;
       }
       .message-text {
         flex: 1;
@@ -63,16 +73,14 @@ export default {
   }
   .input-container {
     display: flex;
+    box-sizing: border-box;
     input {
       flex: 1;
       height: 35px;
       font-size: 18px;
-      box-sizing: border-box;
     }
     button {
       width: 75px;
-      height: 35px;
-      box-sizing: border-box;
     }
   }
 }
